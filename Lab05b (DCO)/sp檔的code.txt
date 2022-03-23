@@ -1,0 +1,616 @@
+*******************************************************
+* Advanced Digital IC Design                          *
+*                                                     *
+* Demo: Buffer Chain                                  *
+*******************************************************
+
+.INCLUDE "hspice_cells.sp"
+
+***********************************
+* Operation Condition             *
+***********************************
+*** Process: Typical ***
+.lib "hspice_model.122" L18U18V_TT
+*.lib "hspice_model.122" L18U18V_FF
+*.lib "hspice_model.122" L18U18V_SS
+
+*** Voltage: 1.8V ***
+.PARAM supply=1.8v
+.PARAM RiseTime = 1
+
+*** Temperature: 25C ***
+.TEMP 25
+
+***********************************
+* Transition Analysis             *
+***********************************
+.TRAN 10ps 6500ns
+
+***********************************
+* HSPICE Options                  *
+***********************************
+.OPTION POST PROBE
+.OPTION NOMOD BRIEF MEASDGT=7 
+.OPTION CAPTAB NOTOP AUTOSTOP
+
+***********************************
+* Output Signals                  *
+***********************************
+.probe tran v(LINE1) 
+.probe tran v(LINE2) v(OUT)
+.probe tran i(VDD)
+
+***********************************
+* Measurement Commands            *
+***********************************
+*** Output Rise-Time and Fall-Time ***
+.MEAS TRAN TR   TRIG V(OUT) val='supply*0.1' rise=2
++	        TARG V(OUT) val='supply*0.9' rise=2 
+.MEAS TRAN TF   TRIG V(OUT) val='supply*0.9' fall=2
++               TARG V(OUT) val='supply*0.1' fall=2
+*** Pin-to-Pin Delay ***
+.MEAS TRAN TH   TRIG V(IN)   val='supply*0.5' rise=2
++	        TARG V(OUT)  val='supply*0.5' rise=2 
+.MEAS TRAN TL   TRIG V(IN)   val='supply*0.5' fall=2
++	        TARG V(OUT)  val='supply*0.5' fall=2 
+
+*****************************************************
+.MEAS TRAN FT0   TRIG V(OUT)  val='supply*0.5' rise=1, TD=0n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=0n
+.MEAS TT0 PARAM = 1/FT0
+.MEAS TRAN FT1   TRIG V(OUT)  val='supply*0.5' rise=1, TD=50n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=50n
+.MEAS TT1 PARAM = 1/FT1
+.MEAS TRAN FT2   TRIG V(OUT)  val='supply*0.5' rise=1, TD=100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=100n
+.MEAS TT2 PARAM = 1/FT2
+.MEAS TRAN FT3   TRIG V(OUT)  val='supply*0.5' rise=1, TD=150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=150n
+.MEAS TT3 PARAM = 1/FT3
+.MEAS TRAN FT4   TRIG V(OUT)  val='supply*0.5' rise=1, TD=200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=200n
+.MEAS TT4 PARAM = 1/FT4
+.MEAS TRAN FT5   TRIG V(OUT)  val='supply*0.5' rise=1, TD=250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=250n
+.MEAS TT5 PARAM = 1/FT5
+.MEAS TRAN FT6   TRIG V(OUT)  val='supply*0.5' rise=1, TD=300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=300n
+.MEAS TT6 PARAM = 1/FT6
+.MEAS TRAN FT7   TRIG V(OUT)  val='supply*0.5' rise=1, TD=350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=350n
+.MEAS TT7 PARAM = 1/FT7
+.MEAS TRAN FT8   TRIG V(OUT)  val='supply*0.5' rise=1, TD=400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=400n
+.MEAS TT8 PARAM = 1/FT8
+.MEAS TRAN FT9   TRIG V(OUT)  val='supply*0.5' rise=1, TD=450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=450n
+.MEAS TT9 PARAM = 1/FT9
+.MEAS TRAN FT10   TRIG V(OUT)  val='supply*0.5' rise=1, TD=500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=500n
+.MEAS TT10 PARAM = 1/FT10
+.MEAS TRAN FT11   TRIG V(OUT)  val='supply*0.5' rise=1, TD=550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=550n
+.MEAS TT11 PARAM = 1/FT11
+.MEAS TRAN FT12   TRIG V(OUT)  val='supply*0.5' rise=1, TD=600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=600n
+.MEAS TT12 PARAM = 1/FT12
+.MEAS TRAN FT13   TRIG V(OUT)  val='supply*0.5' rise=1, TD=650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=650n
+.MEAS TT13 PARAM = 1/FT13
+.MEAS TRAN FT14   TRIG V(OUT)  val='supply*0.5' rise=1, TD=700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=700n
+.MEAS TT14 PARAM = 1/FT14
+.MEAS TRAN FT15   TRIG V(OUT)  val='supply*0.5' rise=1, TD=750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=750n
+.MEAS TT15 PARAM = 1/FT15
+.MEAS TRAN FT16   TRIG V(OUT)  val='supply*0.5' rise=1, TD=800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=800n
+.MEAS TT16 PARAM = 1/FT16
+.MEAS TRAN FT17   TRIG V(OUT)  val='supply*0.5' rise=1, TD=850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=850n
+.MEAS TT17 PARAM = 1/FT17
+.MEAS TRAN FT18   TRIG V(OUT)  val='supply*0.5' rise=1, TD=900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=900n
+.MEAS TT18 PARAM = 1/FT18
+.MEAS TRAN FT19   TRIG V(OUT)  val='supply*0.5' rise=1, TD=950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=950n
+.MEAS TT19 PARAM = 1/FT19
+.MEAS TRAN FT20   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1000n
+.MEAS TT20 PARAM = 1/FT20
+.MEAS TRAN FT21   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1050n
+.MEAS TT21 PARAM = 1/FT21
+.MEAS TRAN FT22   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1100n
+.MEAS TT22 PARAM = 1/FT22
+.MEAS TRAN FT23   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1150n
+.MEAS TT23 PARAM = 1/FT23
+.MEAS TRAN FT24   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1200n
+.MEAS TT24 PARAM = 1/FT24
+.MEAS TRAN FT25   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1250n
+.MEAS TT25 PARAM = 1/FT25
+.MEAS TRAN FT26   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1300n
+.MEAS TT26 PARAM = 1/FT26
+.MEAS TRAN FT27   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1350n
+.MEAS TT27 PARAM = 1/FT27
+.MEAS TRAN FT28   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1400n
+.MEAS TT28 PARAM = 1/FT28
+.MEAS TRAN FT29   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1450n
+.MEAS TT29 PARAM = 1/FT29
+.MEAS TRAN FT30   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1500n
+.MEAS TT30 PARAM = 1/FT30
+.MEAS TRAN FT31   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1550n
+.MEAS TT31 PARAM = 1/FT31
+.MEAS TRAN FT32   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1600n
+.MEAS TT32 PARAM = 1/FT32
+.MEAS TRAN FT33   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1650n
+.MEAS TT33 PARAM = 1/FT33
+.MEAS TRAN FT34   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1700n
+.MEAS TT34 PARAM = 1/FT34
+.MEAS TRAN FT35   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1750n
+.MEAS TT35 PARAM = 1/FT35
+.MEAS TRAN FT36   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1800n
+.MEAS TT36 PARAM = 1/FT36
+.MEAS TRAN FT37   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1850n
+.MEAS TT37 PARAM = 1/FT37
+.MEAS TRAN FT38   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1900n
+.MEAS TT38 PARAM = 1/FT38
+.MEAS TRAN FT39   TRIG V(OUT)  val='supply*0.5' rise=1, TD=1950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=1950n
+.MEAS TT39 PARAM = 1/FT39
+.MEAS TRAN FT40   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2000n
+.MEAS TT40 PARAM = 1/FT40
+.MEAS TRAN FT41   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2050n
+.MEAS TT41 PARAM = 1/FT41
+.MEAS TRAN FT42   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2100n
+.MEAS TT42 PARAM = 1/FT42
+.MEAS TRAN FT43   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2150n
+.MEAS TT43 PARAM = 1/FT43
+.MEAS TRAN FT44   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2200n
+.MEAS TT44 PARAM = 1/FT44
+.MEAS TRAN FT45   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2250n
+.MEAS TT45 PARAM = 1/FT45
+.MEAS TRAN FT46   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2300n
+.MEAS TT46 PARAM = 1/FT46
+.MEAS TRAN FT47   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2350n
+.MEAS TT47 PARAM = 1/FT47
+.MEAS TRAN FT48   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2400n
+.MEAS TT48 PARAM = 1/FT48
+.MEAS TRAN FT49   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2450n
+.MEAS TT49 PARAM = 1/FT49
+.MEAS TRAN FT50   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2500n
+.MEAS TT50 PARAM = 1/FT50
+.MEAS TRAN FT51   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2550n
+.MEAS TT51 PARAM = 1/FT51
+.MEAS TRAN FT52   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2600n
+.MEAS TT52 PARAM = 1/FT52
+.MEAS TRAN FT53   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2650n
+.MEAS TT53 PARAM = 1/FT53
+.MEAS TRAN FT54   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2700n
+.MEAS TT54 PARAM = 1/FT54
+.MEAS TRAN FT55   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2750n
+.MEAS TT55 PARAM = 1/FT55
+.MEAS TRAN FT56   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2800n
+.MEAS TT56 PARAM = 1/FT56
+.MEAS TRAN FT57   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2850n
+.MEAS TT57 PARAM = 1/FT57
+.MEAS TRAN FT58   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2900n
+.MEAS TT58 PARAM = 1/FT58
+.MEAS TRAN FT59   TRIG V(OUT)  val='supply*0.5' rise=1, TD=2950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=2950n
+.MEAS TT59 PARAM = 1/FT59
+.MEAS TRAN FT60   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3000n
+.MEAS TT60 PARAM = 1/FT60
+.MEAS TRAN FT61   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3050n
+.MEAS TT61 PARAM = 1/FT61
+.MEAS TRAN FT62   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3100n
+.MEAS TT62 PARAM = 1/FT62
+.MEAS TRAN FT63   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3150n
+.MEAS TT63 PARAM = 1/FT63
+.MEAS TRAN FT64   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3200n
+.MEAS TT64 PARAM = 1/FT64
+.MEAS TRAN FT65   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3250n
+.MEAS TT65 PARAM = 1/FT65
+.MEAS TRAN FT66   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3300n
+.MEAS TT66 PARAM = 1/FT66
+.MEAS TRAN FT67   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3350n
+.MEAS TT67 PARAM = 1/FT67
+.MEAS TRAN FT68   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3400n
+.MEAS TT68 PARAM = 1/FT68
+.MEAS TRAN FT69   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3450n
+.MEAS TT69 PARAM = 1/FT69
+.MEAS TRAN FT70   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3500n
+.MEAS TT70 PARAM = 1/FT70
+.MEAS TRAN FT71   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3550n
+.MEAS TT71 PARAM = 1/FT71
+.MEAS TRAN FT72   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3600n
+.MEAS TT72 PARAM = 1/FT72
+.MEAS TRAN FT73   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3650n
+.MEAS TT73 PARAM = 1/FT73
+.MEAS TRAN FT74   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3700n
+.MEAS TT74 PARAM = 1/FT74
+.MEAS TRAN FT75   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3750n
+.MEAS TT75 PARAM = 1/FT75
+.MEAS TRAN FT76   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3800n
+.MEAS TT76 PARAM = 1/FT76
+.MEAS TRAN FT77   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3850n
+.MEAS TT77 PARAM = 1/FT77
+.MEAS TRAN FT78   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3900n
+.MEAS TT78 PARAM = 1/FT78
+.MEAS TRAN FT79   TRIG V(OUT)  val='supply*0.5' rise=1, TD=3950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=3950n
+.MEAS TT79 PARAM = 1/FT79
+.MEAS TRAN FT80   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4000n
+.MEAS TT80 PARAM = 1/FT80
+.MEAS TRAN FT81   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4050n
+.MEAS TT81 PARAM = 1/FT81
+.MEAS TRAN FT82   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4100n
+.MEAS TT82 PARAM = 1/FT82
+.MEAS TRAN FT83   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4150n
+.MEAS TT83 PARAM = 1/FT83
+.MEAS TRAN FT84   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4200n
+.MEAS TT84 PARAM = 1/FT84
+.MEAS TRAN FT85   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4250n
+.MEAS TT85 PARAM = 1/FT85
+.MEAS TRAN FT86   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4300n
+.MEAS TT86 PARAM = 1/FT86
+.MEAS TRAN FT87   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4350n
+.MEAS TT87 PARAM = 1/FT87
+.MEAS TRAN FT88   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4400n
+.MEAS TT88 PARAM = 1/FT88
+.MEAS TRAN FT89   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4450n
+.MEAS TT89 PARAM = 1/FT89
+.MEAS TRAN FT90   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4500n
+.MEAS TT90 PARAM = 1/FT90
+.MEAS TRAN FT91   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4550n
+.MEAS TT91 PARAM = 1/FT91
+.MEAS TRAN FT92   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4600n
+.MEAS TT92 PARAM = 1/FT92
+.MEAS TRAN FT93   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4650n
+.MEAS TT93 PARAM = 1/FT93
+.MEAS TRAN FT94   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4700n
+.MEAS TT94 PARAM = 1/FT94
+.MEAS TRAN FT95   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4750n
+.MEAS TT95 PARAM = 1/FT95
+.MEAS TRAN FT96   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4800n
+.MEAS TT96 PARAM = 1/FT96
+.MEAS TRAN FT97   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4850n
+.MEAS TT97 PARAM = 1/FT97
+.MEAS TRAN FT98   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4900n
+.MEAS TT98 PARAM = 1/FT98
+.MEAS TRAN FT99   TRIG V(OUT)  val='supply*0.5' rise=1, TD=4950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=4950n
+.MEAS TT99 PARAM = 1/FT99
+.MEAS TRAN FT100   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5000n
+.MEAS TT100 PARAM = 1/FT100
+.MEAS TRAN FT101   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5050n
+.MEAS TT101 PARAM = 1/FT101
+.MEAS TRAN FT102   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5100n
+.MEAS TT102 PARAM = 1/FT102
+.MEAS TRAN FT103   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5150n
+.MEAS TT103 PARAM = 1/FT103
+.MEAS TRAN FT104   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5200n
+.MEAS TT104 PARAM = 1/FT104
+.MEAS TRAN FT105   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5250n
+.MEAS TT105 PARAM = 1/FT105
+.MEAS TRAN FT106   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5300n
+.MEAS TT106 PARAM = 1/FT106
+.MEAS TRAN FT107   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5350n
+.MEAS TT107 PARAM = 1/FT107
+.MEAS TRAN FT108   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5400n
+.MEAS TT108 PARAM = 1/FT108
+.MEAS TRAN FT109   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5450n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5450n
+.MEAS TT109 PARAM = 1/FT109
+.MEAS TRAN FT110   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5500n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5500n
+.MEAS TT110 PARAM = 1/FT110
+.MEAS TRAN FT111   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5550n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5550n
+.MEAS TT111 PARAM = 1/FT111
+.MEAS TRAN FT112   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5600n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5600n
+.MEAS TT112 PARAM = 1/FT112
+.MEAS TRAN FT113   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5650n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5650n
+.MEAS TT113 PARAM = 1/FT113
+.MEAS TRAN FT114   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5700n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5700n
+.MEAS TT114 PARAM = 1/FT114
+.MEAS TRAN FT115   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5750n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5750n
+.MEAS TT115 PARAM = 1/FT115
+.MEAS TRAN FT116   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5800n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5800n
+.MEAS TT116 PARAM = 1/FT116
+.MEAS TRAN FT117   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5850n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5850n
+.MEAS TT117 PARAM = 1/FT117
+.MEAS TRAN FT118   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5900n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5900n
+.MEAS TT118 PARAM = 1/FT118
+.MEAS TRAN FT119   TRIG V(OUT)  val='supply*0.5' rise=1, TD=5950n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=5950n
+.MEAS TT119 PARAM = 1/FT119
+.MEAS TRAN FT120   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6000n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6000n
+.MEAS TT120 PARAM = 1/FT120
+.MEAS TRAN FT121   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6050n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6050n
+.MEAS TT121 PARAM = 1/FT121
+.MEAS TRAN FT122   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6100n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6100n
+.MEAS TT122 PARAM = 1/FT122
+.MEAS TRAN FT123   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6150n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6150n
+.MEAS TT123 PARAM = 1/FT123
+.MEAS TRAN FT124   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6200n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6200n
+.MEAS TT124 PARAM = 1/FT124
+.MEAS TRAN FT125   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6250n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6250n
+.MEAS TT125 PARAM = 1/FT125
+.MEAS TRAN FT126   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6300n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6300n
+.MEAS TT126 PARAM = 1/FT126
+.MEAS TRAN FT127   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6350n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6350n
+.MEAS TT127 PARAM = 1/FT127
+.MEAS TRAN FT128   TRIG V(OUT)  val='supply*0.5' rise=1, TD=6400n
++	         TARG V(OUT)  val='supply*0.5' rise=2, TD=6400n
+.MEAS TT128 PARAM = 1/FT128
+*****************************************************
+
+
+*** Average && Peak Power ***
+.MEAS tran avg_power avg par('v(VDD)*i(VDD)') FROM=0ns TO=6500ns
+.MEAS tran max_power min par('v(VDD)*i(VDD)') FROM=0ns TO=6500ns
+
+
+***********************************
+* Define Global Nets              *
+***********************************
+.GLOBAL VDD VSS
+
+***********************************
+* Voltage Sources                 *
+***********************************
+vdd     VDD   0  DC supply
+vss     VSS   0  DC 0
+*vinput   IN   0  PULSE(0 supply 0 0.1n 0.1n 4.9n 10n) 
+.IC V(OUT)=0
+.VEC "dco1.vec"
+
+
+***********************************
+* TOP Circuit                     *
+***********************************
+
+
+XH000	reset	OUT	LINE1	AND2X1
+
+XG000	coarse[0]	LINE1	LINE2	TBUFIX4
+XG001	coarse[1]	LINE2	LINE3	TBUFIX4
+XG002	coarse[2]	LINE3	OUT	TBUFIX4
+XG003	coarse[3]	LINE1	LINE2	TBUFIX4
+XG004	coarse[4]	LINE2	LINE3	TBUFIX4
+XG005	coarse[5]	LINE3	OUT	TBUFIX4
+XG006	coarse[6]	LINE1	LINE2	TBUFIX4
+XG007	coarse[7]	LINE2	LINE3	TBUFIX4
+XG008	coarse[8]	LINE3	OUT	TBUFIX4
+XG009	coarse[9]	LINE1	LINE2	TBUFIX4
+XG010	coarse[10]	LINE2	LINE3	TBUFIX4
+XG011	coarse[11]	LINE3	OUT	TBUFIX4
+XG012	coarse[12]	LINE1	LINE2	TBUFIX4
+XG013	coarse[13]	LINE2	LINE3	TBUFIX4
+XG014	coarse[14]	LINE3	OUT	TBUFIX4
+XG015	coarse[15]	LINE1	LINE2	TBUFIX4
+XG016	coarse[16]	LINE2	LINE3	TBUFIX4
+XG017	coarse[17]	LINE3	OUT	TBUFIX4
+XG018	coarse[18]	LINE1	LINE2	TBUFIX4
+XG019	coarse[19]	LINE2	LINE3	TBUFIX4
+XG020	coarse[20]	LINE3	OUT	TBUFIX4
+XG021	coarse[21]	LINE1	LINE2	TBUFIX4
+XG022	coarse[22]	LINE2	LINE3	TBUFIX4
+XG023	coarse[23]	LINE3	OUT	TBUFIX4
+XG024	coarse[24]	LINE1	LINE2	TBUFIX4
+XG025	coarse[25]	LINE2	LINE3	TBUFIX4
+XG026	coarse[26]	LINE3	OUT	TBUFIX4
+XG027	coarse[27]	LINE1	LINE2	TBUFIX4
+XG028	coarse[28]	LINE2	LINE3	TBUFIX4
+XG029	coarse[29]	LINE3	OUT	TBUFIX4
+XG030	coarse[30]	LINE1	LINE2	TBUFIX4
+XG031	coarse[31]	LINE2	LINE3	TBUFIX4
+XG032	coarse[32]	LINE3	OUT	TBUFIX4
+XG033	coarse[33]	LINE1	LINE2	TBUFIX4
+XG034	coarse[34]	LINE2	LINE3	TBUFIX4
+XG035	coarse[35]	LINE3	OUT	TBUFIX4
+XG036	coarse[36]	LINE1	LINE2	TBUFIX4
+XG037	coarse[37]	LINE2	LINE3	TBUFIX4
+XG038	coarse[38]	LINE3	OUT	TBUFIX4
+XG039	coarse[39]	LINE1	LINE2	TBUFIX4
+XG040	coarse[40]	LINE2	LINE3	TBUFIX4
+XG041	coarse[41]	LINE3	OUT	TBUFIX4
+XG042	coarse[42]	LINE1	LINE2	TBUFIX4
+XG043	coarse[43]	LINE2	LINE3	TBUFIX4
+XG044	coarse[44]	LINE3	OUT	TBUFIX4
+XG045	coarse[45]	LINE1	LINE2	TBUFIX4
+XG046	coarse[46]	LINE2	LINE3	TBUFIX4
+XG047	coarse[47]	LINE3	OUT	TBUFIX4
+XG048	coarse[48]	LINE1	LINE2	TBUFIX4
+XG049	coarse[49]	LINE2	LINE3	TBUFIX4
+XG050	coarse[50]	LINE3	OUT	TBUFIX4
+XG051	coarse[51]	LINE1	LINE2	TBUFIX4
+XG052	coarse[52]	LINE2	LINE3	TBUFIX4
+XG053	coarse[53]	LINE3	OUT	TBUFIX4
+XG054	coarse[54]	LINE1	LINE2	TBUFIX4
+XG055	coarse[55]	LINE2	LINE3	TBUFIX4
+XG056	coarse[56]	LINE3	OUT	TBUFIX4
+XG057	coarse[57]	LINE1	LINE2	TBUFIX4
+XG058	coarse[58]	LINE2	LINE3	TBUFIX4
+XG059	coarse[59]	LINE3	OUT	TBUFIX4
+XG060	coarse[60]	LINE1	LINE2	TBUFIX4
+XG061	coarse[61]	LINE2	LINE3	TBUFIX4
+XG062	coarse[62]	LINE3	OUT	TBUFIX4
+XG063	coarse[63]	LINE1	LINE2	TBUFIX4
+XG064	coarse[64]	LINE2	LINE3	TBUFIX4
+XG065	coarse[65]	LINE3	OUT	TBUFIX4
+XG066	coarse[66]	LINE1	LINE2	TBUFIX4
+XG067	coarse[67]	LINE2	LINE3	TBUFIX4
+XG068	coarse[68]	LINE3	OUT	TBUFIX4
+XG069	coarse[69]	LINE1	LINE2	TBUFIX4
+XG070	coarse[70]	LINE2	LINE3	TBUFIX4
+XG071	coarse[71]	LINE3	OUT	TBUFIX4
+XG072	coarse[72]	LINE1	LINE2	TBUFIX4
+XG073	coarse[73]	LINE2	LINE3	TBUFIX4
+XG074	coarse[74]	LINE3	OUT	TBUFIX4
+XG075	coarse[75]	LINE1	LINE2	TBUFIX4
+XG076	coarse[76]	LINE2	LINE3	TBUFIX4
+XG077	coarse[77]	LINE3	OUT	TBUFIX4
+XG078	coarse[78]	LINE1	LINE2	TBUFIX4
+XG079	coarse[79]	LINE2	LINE3	TBUFIX4
+XG080	coarse[80]	LINE3	OUT	TBUFIX4
+XG081	coarse[81]	LINE1	LINE2	TBUFIX4
+XG082	coarse[82]	LINE2	LINE3	TBUFIX4
+XG083	coarse[83]	LINE3	OUT	TBUFIX4
+XG084	coarse[84]	LINE1	LINE2	TBUFIX4
+XG085	coarse[85]	LINE2	LINE3	TBUFIX4
+XG086	coarse[86]	LINE3	OUT	TBUFIX4
+XG087	coarse[87]	LINE1	LINE2	TBUFIX4
+XG088	coarse[88]	LINE2	LINE3	TBUFIX4
+XG089	coarse[89]	LINE3	OUT	TBUFIX4
+XG090	coarse[90]	LINE1	LINE2	TBUFIX4
+XG091	coarse[91]	LINE2	LINE3	TBUFIX4
+XG092	coarse[92]	LINE3	OUT	TBUFIX4
+XG093	coarse[93]	LINE1	LINE2	TBUFIX4
+XG094	coarse[94]	LINE2	LINE3	TBUFIX4
+XG095	coarse[95]	LINE3	OUT	TBUFIX4
+XG096	coarse[96]	LINE1	LINE2	TBUFIX4
+XG097	coarse[97]	LINE2	LINE3	TBUFIX4
+XG098	coarse[98]	LINE3	OUT	TBUFIX4
+XG099	coarse[99]	LINE1	LINE2	TBUFIX4
+XG100	coarse[100]	LINE2	LINE3	TBUFIX4
+XG101	coarse[101]	LINE3	OUT	TBUFIX4
+XG102	coarse[102]	LINE1	LINE2	TBUFIX4
+XG103	coarse[103]	LINE2	LINE3	TBUFIX4
+XG104	coarse[104]	LINE3	OUT	TBUFIX4
+XG105	coarse[105]	LINE1	LINE2	TBUFIX4
+XG106	coarse[106]	LINE2	LINE3	TBUFIX4
+XG107	coarse[107]	LINE3	OUT	TBUFIX4
+XG108	coarse[108]	LINE1	LINE2	TBUFIX4
+XG109	coarse[109]	LINE2	LINE3	TBUFIX4
+XG110	coarse[110]	LINE3	OUT	TBUFIX4
+XG111	coarse[111]	LINE1	LINE2	TBUFIX4
+XG112	coarse[112]	LINE2	LINE3	TBUFIX4
+XG113	coarse[113]	LINE3	OUT	TBUFIX4
+XG114	coarse[114]	LINE1	LINE2	TBUFIX4
+XG115	coarse[115]	LINE2	LINE3	TBUFIX4
+XG116	coarse[116]	LINE3	OUT	TBUFIX4
+XG117	coarse[117]	LINE1	LINE2	TBUFIX4
+XG118	coarse[118]	LINE2	LINE3	TBUFIX4
+XG119	coarse[119]	LINE3	OUT	TBUFIX4
+XG120	coarse[120]	LINE1	LINE2	TBUFIX4
+XG121	coarse[121]	LINE2	LINE3	TBUFIX4
+XG122	coarse[122]	LINE3	OUT	TBUFIX4
+XG123	coarse[123]	LINE1	LINE2	TBUFIX4
+XG124	coarse[124]	LINE2	LINE3	TBUFIX4
+XG125	coarse[125]	LINE3	OUT	TBUFIX4
+XG126	coarse[126]	LINE1	LINE2	TBUFIX4
+XG127	coarse[127]	LINE2	LINE3	TBUFIX4
+
+
+
+C1    OUT    0 0.02p
+
+***********************************
+* Subckt Definition               *
+***********************************
+.SUBCKT INVERTER Y A pl=0.24u pw=0.24u nl=0.24u nw=0.24u
+M_N   Y  A VSS VSS N_18_G2 w=nw l=nl
+M_P VDD  A   Y VDD P_18_G2 w=pw l=pl
+.ENDS INVERTER
+
+.end
