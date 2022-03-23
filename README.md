@@ -1,5 +1,4 @@
 # Verilog-ADPLL
-全數位鎖相迴路
 
 Lab04b (DCO&PFD) & Lab04c (Controller) 是Verilog
 
