@@ -7,5 +7,6 @@ Lab05b (DCO) & Lab05d (PFD) 是Hspice
 
 ![image](https://user-images.githubusercontent.com/64843338/159724339-f836c951-9a2f-4573-9ca7-57cad3e9b70a.png)
 
-![image](https://user-images.githubusercontent.com/64843338/159724925-b30ba3b8-53a3-4dd8-97b3-0c3408871a43.png)
+![image](https://user-images.githubusercontent.com/64843338/159725853-ed5c9e43-1537-4c58-a182-0bdbed34fa80.png)
+
 
